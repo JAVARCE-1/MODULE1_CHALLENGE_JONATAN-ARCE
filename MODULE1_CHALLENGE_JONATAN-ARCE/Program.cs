@@ -1,54 +1,84 @@
-﻿namespace MODULE1_CHALLENGE_JONATAN_ARCE
+﻿using System.ComponentModel.Design;
+
+namespace MODULE1_CHALLENGE_JONATAN_ARCE
 {
     internal class Program
     {
         static void Main(string[] args)
         {
 
-            Menu();
-
-            //Console.WriteLine("Tipo de cambio de Monedas");
-
-
-            //Dictionary<string, string[]> monedas = new Dictionary<string, string[]>();
-
-            //monedas.Add("PEN", new string[] { "Soles", "3.75", "S/." });
-            //monedas.Add("USD", new string[] { "Dolar", "1.09", "$" });
-            //monedas.Add("EUR", new string[] { "Euro", "0.92", "€" });
-
-            //var monedas = InicializarMonedas();
-            //int[] detalle = new int[2];
-
-            //foreach (var filas in monedas)
-            //{
-            //    Console.WriteLine($" la Moneda en {filas.Key}: ");
-
-            //    foreach (string filaArray in filas.Value)
-            //    {
-            //        Console.WriteLine(" - " + filaArray );
-            //    }
-            //}
-
+            principal();
 
         }
-
         //metodos
+        //------------------------------------------------------------------------------------------
+        public static void menu()
+        {
+            Console.WriteLine("\n");
+            Console.WriteLine("======================================");
+            Console.WriteLine("   Aplicación convertidor de moneda   ");
+            Console.WriteLine("======================================");
+            Console.WriteLine("");
+            Console.WriteLine("==== Menú de Opciones ====");
+            Console.WriteLine("     1. Convertir moneda");
+            Console.WriteLine("     2. Listar");
+            Console.WriteLine("     3. Editar");
+            Console.WriteLine("     4. Buscar");
+            Console.WriteLine("     5. Salir");
+            Console.WriteLine("--------------------------");
+            Console.WriteLine("\n");
+        }
+
+        //------------------------------------------------------------------------------------------
+        public static void principal()
+        {
+            int opcion = 0;
+            bool salir = false;
+            bool opContinue = false;
+            menu();
+
+            while (!salir)
+            {
+                Console.Write("Ingrese su opción: ");
+                if (int.TryParse(Console.ReadLine(), out opcion) == false)
+                {
+                    Console.WriteLine("Opciones - Debe ingresar solo valores númericos");
+                    return;
+                }
+                else
+                {   if (opcion != 5)
+                    { 
+                        optionSelection(opcion);  //Evaluar opciones
+                        opContinue = opcionSeguir();
+                        if (opContinue == false)
+                        {
+                            menu();
+                        }
+                    }
+                    else
+                    {
+                        salir = true;
+                    }
+                }
+            }
+            Console.WriteLine("\nFin del programa...");
+            Console.ReadKey();
+            Environment.Exit(0);
+        }
+
+        //------------------------------------------------------------------------------------------
         public static void optionSelection(int opcion)
         {
             const int CONVERTIR = 1;
             const int LISTAR = 2;
             const int MODIFICAR = 3;
             const int BUSCAR = 4;
-            //const int ADICIONAR = 5;
-
-            Console.WriteLine("");
+            bool opContinue = false;
+            
             switch (opcion)
             {
                 case CONVERTIR:
-                    {
-                        Console.WriteLine("--------------------------");
-                        Console.WriteLine("--   CONVERTIR MONEDA   --");
-                        Console.WriteLine("--------------------------");
+                    {                 
                         currencyConvert();
                         break;
                     }
@@ -67,62 +97,30 @@
                         Console.WriteLine("BUSCAR");
                         break;
                     }
-                //case ADICIONAR:
-                //    {
-                //        Console.WriteLine("ADICIONAR");
-                //        break;
-                //    }
-
                 default:
                     {
-                        Console.WriteLine("FIN");
+                        Console.WriteLine("Ingrese correctamente la Opcion");
                         break;
                     }
             }
+
         }
 
-        public static void Menu()
-        {
-            int opcion = 0;
+ 
 
-            Console.WriteLine("======================================");
-            Console.WriteLine("   Aplicación convertidor de moneda   ");
-            Console.WriteLine("======================================");
-            Console.WriteLine("");
-            Console.WriteLine("==== Menú de Opciones ====");
-            Console.WriteLine("     1. Convertir moneda");
-            Console.WriteLine("     2. Opción 2");
-            Console.WriteLine("     3. Opción 3");
-            Console.WriteLine("     4. Opción 3");
-            //Console.WriteLine("     5. Opción 3");
-            Console.WriteLine("     6. Salir");
-            Console.WriteLine("--------------------------");
-            //Console.WriteLine("");
+  
 
-            while (opcion != 6)
-            {
-                Console.WriteLine("");
-                Console.Write("Ingrese su opción: ");
-                if (int.TryParse(Console.ReadLine(), out opcion) == false)
-                {
-                    Console.WriteLine("Debe ingresar solo valores númericos");
-                    return;
-                }
-                else
-                {
-                    optionSelection(opcion);
-                }
-
-            }
-            Console.WriteLine("Fin de programa...");
-        }
-
+        //------------------------------------------------------------------------------------------
         public static void currencyConvert()
         {
             var monedas = InicializarMonedas();
             int monedaOrigen, monedaDestino;
             decimal importe, importeCalculado = 0;
             string[] valorMoneda = new string[2];
+
+            Console.WriteLine("--------------------------");
+            Console.WriteLine("--   CONVERTIR MONEDA   --");
+            Console.WriteLine("--------------------------");
 
             Console.WriteLine("\nOpciones Moneda:");
 
@@ -191,9 +189,11 @@
                 importeCalculado = importe * 0.27m * 0.92m;
             }
             Console.WriteLine($"Es {importeCalculado.ToString()}");
+            Console.WriteLine("");
 
         }
 
+        //------------------------------------------------------------------------------------------
         public static Dictionary<int, string[]> InicializarMonedas()
         {
             Dictionary<int, string[]> monedas = new Dictionary<int, string[]>();
@@ -204,5 +204,28 @@
 
             return monedas;
         }
+
+        //------------------------------------------------------------------------------------------
+        static bool opcionSeguir()
+        {
+            bool opContinue=false;
+            string seguir="S";
+
+            //while (seguir == "S" || seguir == "s")
+
+            Console.Write("Desea ingresar otro? S/N : ");
+            seguir = Console.ReadLine();
+            if (seguir == "S" || seguir == "s")
+            {
+                opContinue = true;
+            }
+            else 
+            {
+                opContinue = false;
+            }              
+            return opContinue;
+        }
+
+
     }
 }
