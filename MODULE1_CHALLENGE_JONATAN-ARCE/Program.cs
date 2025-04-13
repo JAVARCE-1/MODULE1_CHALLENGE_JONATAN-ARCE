@@ -7,9 +7,8 @@ namespace MODULE1_CHALLENGE_JONATAN_ARCE
         static void Main(string[] args)
         {
 
-            Console.WriteLine("Iniciando ..");
+            Console.WriteLine(" Iniciando ..");
             Principal();
-
         }
 
         const int CONVERTIR = 1;
@@ -50,10 +49,10 @@ namespace MODULE1_CHALLENGE_JONATAN_ARCE
             while (!salir)
             {
                 ViewMenu();
-                Console.Write("\n* Ingrese su opción (1-5): ");
+                Console.Write("\n -> Ingrese su opción (1-5): ");
                 if (int.TryParse(Console.ReadLine(), out opcion) == false)
                 {
-                    Console.WriteLine("¡Aviso! - Debe ingresar solo valores númericos ...");
+                    Console.WriteLine(" ¡Aviso! - Debe ingresar solo valores númericos ...");
                     salir = false;
                     Console.WriteLine("");
                 }
@@ -71,7 +70,7 @@ namespace MODULE1_CHALLENGE_JONATAN_ARCE
 
                 }
             }
-            Console.WriteLine("\nFin del programa...");
+            Console.WriteLine("\n Fin del programa...");
             Console.ReadKey();
             Environment.Exit(0);
         }
@@ -79,7 +78,6 @@ namespace MODULE1_CHALLENGE_JONATAN_ARCE
         //------------------------------------------------------------------------------------------
         public static void OptionSelection(int opcion, Dictionary<int, string[]> moneda)
         {
-
 
             Console.WriteLine($" Has seleccionado la Opción {opcion} del Menú.");
             Console.WriteLine("");
@@ -107,7 +105,7 @@ namespace MODULE1_CHALLENGE_JONATAN_ARCE
                     }
                 default:
                     {
-                        Console.WriteLine("Ingrese correctamente su Opción");
+                        Console.WriteLine(" Ingrese correctamente su Opción");
                         break;
                     }
             }
@@ -124,10 +122,9 @@ namespace MODULE1_CHALLENGE_JONATAN_ARCE
 
             PrintCurrency(moneda, 0); //imprimir todos
 
-            Console.WriteLine("Presione enter para retornar a las opciones ...");
+            Console.WriteLine(" Presione enter para retornar a las opciones ...");
             Console.ReadLine();
         }
-
 
         //------------------------------------------------------------------------------------------
         public static void CurrencyConvert(Dictionary<int, string[]> moneda)
@@ -149,10 +146,10 @@ namespace MODULE1_CHALLENGE_JONATAN_ARCE
 
             while (!entradaValida)
             {
-                Console.Write(" - Ingrese el Importe: ");
+                Console.Write(" -> Ingrese el Importe: ");
                 if (decimal.TryParse(Console.ReadLine(), out importe) == false)
                 {
-                    Console.WriteLine("Debe ingresar solo valores númericos: ");
+                    Console.WriteLine(" Debe ingresar solo valores númericos: ");
                     return;
                 }
                 else
@@ -162,7 +159,7 @@ namespace MODULE1_CHALLENGE_JONATAN_ARCE
             }
 
             Console.WriteLine("\n");
-            Console.Write($"La Conversión de {moneda[monedaOrigen][0]} a {moneda[monedaDestino][0]} del importe {importe} ");
+            Console.Write($" La Conversión de {moneda[monedaOrigen][0]} a {moneda[monedaDestino][0]} del importe {importe} ");
 
             switch (monedaOrigen)
             {
@@ -172,7 +169,7 @@ namespace MODULE1_CHALLENGE_JONATAN_ARCE
                     break;
                 case 1 when monedaDestino == 3:
                     //PEN_EUR
-                    importeCalculado = importe / (Convert.ToDecimal(moneda[monedaOrigen][4]) * Convert.ToDecimal(moneda[2][6]));
+                    importeCalculado = importe / Convert.ToDecimal(moneda[monedaOrigen][6]) ;
                     break;
                 case 2 when monedaDestino == 1:
                     //USD_PEN
@@ -180,15 +177,15 @@ namespace MODULE1_CHALLENGE_JONATAN_ARCE
                     break;
                 case 2 when monedaDestino == 3:
                     //USD_EUR
-                    importeCalculado = importe / Convert.ToDecimal(moneda[monedaOrigen][6]);
+                    importeCalculado = importe * (Convert.ToDecimal(moneda[monedaOrigen][4]) / Convert.ToDecimal(moneda[monedaOrigen+1][4]));
                     break;
                 case 3 when monedaDestino == 1:
                     //EUR_PEN
-                    importeCalculado = importe * Convert.ToDecimal(moneda[1][4]) * Convert.ToDecimal(moneda[2][6]); ;
+                    importeCalculado = importe * Convert.ToDecimal(moneda[monedaOrigen][4]) ;
                     break;
                 case 3 when monedaDestino == 2:
                     //EUR_USD
-                    importeCalculado = importe * (Convert.ToDecimal(moneda[2][6]));
+                    importeCalculado = importe * (Convert.ToDecimal(moneda[monedaOrigen][4]) / Convert.ToDecimal(moneda[monedaOrigen-1][4]));
                     break;
                 default:
                     // Código por defecto
@@ -220,7 +217,7 @@ namespace MODULE1_CHALLENGE_JONATAN_ARCE
             Console.WriteLine("--              BUSCAR MONEDA              --");
             Console.WriteLine("---------------------------------------------");
 
-            Console.Write("Digite la moneda para su busqueda: ");
+            Console.Write(" -> Digite Nombre ó abreviatura ó símbolo de la Moneda para su busqueda: ");
             valorBuscar = Console.ReadLine();
 
             foreach (var pos in moneda)
@@ -237,12 +234,12 @@ namespace MODULE1_CHALLENGE_JONATAN_ARCE
 
             if (indice != -1)
             {
-                Console.WriteLine($"Se encontró '{valorBuscar}' en el elemento con clave {indice}");
+                Console.WriteLine($" Se encontró '{valorBuscar}' en el elemento con clave {indice}");
                 PrintCurrency(moneda, indice); //imprimir valor buscado
             }
             else
             {
-                Console.WriteLine($"No se encontró '{valorBuscar}' en el diccionario");
+                Console.WriteLine($" No se encontró '{valorBuscar}' en los registros.");
             }
 
             continuarOpcion = false;
@@ -271,16 +268,16 @@ namespace MODULE1_CHALLENGE_JONATAN_ARCE
 
             while (!entradaValida)
             {
-                Console.Write(" Seleccione la opción de la moneda (1-3): ");
+                Console.Write(" -> Seleccione la opción de la moneda (1-2-3): ");
                 if (int.TryParse(Console.ReadLine(), out opMoneda) == false)
                 {
-                    Console.WriteLine("Debe ingresar solo valores númericos");
+                    Console.WriteLine(" Debe ingresar solo valores númericos");
                 }
                 else
                 {
                     if ((moneda.ContainsKey(opMoneda)) == false)
                     {
-                        Console.WriteLine($"la Opción de la moneda no es válida"); ;
+                        Console.WriteLine($" La Opción de la moneda no es válida"); ;
                     }
                     else
                     {
@@ -294,25 +291,26 @@ namespace MODULE1_CHALLENGE_JONATAN_ARCE
             segundoTcAnterior = Convert.ToDecimal(moneda[opMoneda][6]);
 
             Console.WriteLine($" Ha seleccionado la moneda en {moneda[opMoneda][0]}, se prodece a modificar el Tipo de cambio ...");
+            PrintCurrency(moneda, opMoneda); //imprimir valor buscado
 
             primerTcNuevo = ValidateExchangeRate(moneda, opMoneda, 3);
             segundoTcNuevo = ValidateExchangeRate(moneda, opMoneda, 5);
 
             Console.WriteLine("");
 
-            Console.Write("Desea Grabar los cambios? S/N : ");
+            Console.Write(" -> Desea Grabar los cambios? S/N : ");
             string grabar = Console.ReadLine();
             if (grabar.ToUpper() == "S")
             {
                 moneda[opMoneda][4] = Convert.ToString(primerTcNuevo);
                 moneda[opMoneda][6] = Convert.ToString(segundoTcNuevo);
-                Console.WriteLine("Los cambios fueron grabados..");
+                Console.WriteLine(" Los cambios fueron grabados..");
             }
             else
             {
                 moneda[opMoneda][4] = Convert.ToString(primerTcAnterior);
                 moneda[opMoneda][6] = Convert.ToString(segundoTcAnterior);
-                Console.WriteLine("No se realizó ningún cambio..");
+                Console.WriteLine(" No se realizó ningún cambio..");
             }
 
             PrintCurrency(moneda, (opMoneda));
@@ -335,10 +333,10 @@ namespace MODULE1_CHALLENGE_JONATAN_ARCE
             //valiada valor tc
             while (!entradaValida)
             {
-                Console.Write($" - Ingrese el nuevo Tipo de Cambio {moneda[indice][indiceArray]} :");
+                Console.Write($" -> Ingrese el nuevo Tipo de Cambio {moneda[indice][indiceArray]} :");
                 if (decimal.TryParse(Console.ReadLine(), out valorDec) == false)
                 {
-                    Console.WriteLine("Debe ingresar solo valores númericos");
+                    Console.WriteLine(" Debe ingresar solo valores númericos");
                 }
                 else
                 {
@@ -357,20 +355,20 @@ namespace MODULE1_CHALLENGE_JONATAN_ARCE
 
             while (!entradaValida)
             {
-                Console.Write($" - Seleccione la moneda {texto} (1-3): ");
+                Console.Write($" -> Seleccione la moneda {texto} (1-3): ");
                 if (int.TryParse(Console.ReadLine(), out valorEntero) == false)
                 {
-                    Console.WriteLine("Debe ingresar solo valores númericos");
+                    Console.WriteLine(" Debe ingresar solo valores númericos");
                 }
                 else
                 {
                     if ((moneda.ContainsKey(valorEntero)) == false)
                     {
-                        Console.WriteLine($"la Opción de la moneda no es valida");
+                        Console.WriteLine($" La Opción de la moneda no es valida");
                     }
                     else if (texto == "Destino" && valorEntero == opcionOrigen)
                     {
-                        Console.WriteLine("No se puede realizar la conversión de monedas iguales");
+                        Console.WriteLine(" No se puede realizar la conversión de monedas iguales");
                     }
                     else
                     {
@@ -401,9 +399,9 @@ namespace MODULE1_CHALLENGE_JONATAN_ARCE
         public static Dictionary<int, string[]> InicializarMonedas()
         {
             Dictionary<int, string[]> monedas = new Dictionary<int, string[]>();
-            monedas.Add(1, new string[] { "Soles", "PEN", "S/.", "PEN_USD", "3.75", "PEN_EUR", "3.45" });
-            monedas.Add(2, new string[] { "Dolar", "USD", "$", "USD_PEN", "3.74", "USD_EUR", "0.92" });
-            monedas.Add(3, new string[] { "Euro", "EUR", "E", "EUR_PEN", "3.44", "EUR_USD", "1.09" });
+            monedas.Add(1, new string[] { "Soles", "PEN", "S/.", "PEN_USD", "3.70", "PEN_EUR", "4.00" });
+            monedas.Add(2, new string[] { "Dolar", "USD", "$", "USD_PEN", "3.70", "USD_EUR", "4.00" });
+            monedas.Add(3, new string[] { "Euro", "EUR", "E", "EUR_PEN", "4.00", "EUR_USD", "4.00" });
 
             return monedas;
         }
@@ -455,9 +453,8 @@ namespace MODULE1_CHALLENGE_JONATAN_ARCE
             {
                 while (!validaLetra)
                 {
-
                     seguir = "S";
-                    Console.Write("¿Desea ingresar otro? S/N : ");
+                    Console.Write(" -> ¿Desea ingresar otro? S/N : ");
                     seguir = Console.ReadLine();
                     if (seguir.ToUpper() == "S")
                     {
@@ -471,7 +468,7 @@ namespace MODULE1_CHALLENGE_JONATAN_ARCE
                     }
                     else
                     {
-                        Console.WriteLine("¡Valor digitado es incorrecto!");
+                        Console.WriteLine(" ¡Valor digitado es incorrecto!");
                     }
                 }
             }
