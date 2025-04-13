@@ -6,6 +6,7 @@ namespace MODULE1_CHALLENGE_JONATAN_ARCE
     {
         static void Main(string[] args)
         {
+            
 
             principal();
 
@@ -49,7 +50,7 @@ namespace MODULE1_CHALLENGE_JONATAN_ARCE
                 {   if (opcion != 5)
                     { 
                         optionSelection(opcion);  //Evaluar opciones
-                        opContinue = opcionSeguir();
+                        opContinue = opcionSeguir(opcion);
                         if (opContinue == false)
                         {
                             menu();
@@ -74,17 +75,19 @@ namespace MODULE1_CHALLENGE_JONATAN_ARCE
             const int MODIFICAR = 3;
             const int BUSCAR = 4;
             bool opContinue = false;
-            
+
+            var monedas = InicializarMonedas();
+
             switch (opcion)
             {
                 case CONVERTIR:
                     {                 
-                        currencyConvert();
+                        currencyConvert(monedas);
                         break;
                     }
                 case LISTAR:
                     {
-                        Console.WriteLine("LISTAR");
+                        currencyList(monedas);
                         break;
                     }
                 case MODIFICAR:
@@ -107,13 +110,42 @@ namespace MODULE1_CHALLENGE_JONATAN_ARCE
         }
 
  
+        public static void currencyList(Dictionary<int, string[]> moneda)
+        {
+            string[] valorMoneda = new string[2];
+            string cabecera;
 
-  
+            Console.WriteLine("---------------------------------------------");
+            Console.WriteLine("--            LISTADO DE MONEDAS           --");
+            Console.WriteLine("---------------------------------------------");
+
+            Console.WriteLine("");
+            Console.WriteLine("+---------------------------------------------+");
+            cabecera =        " |Moneda      |Abreviatura|Tipo Cambio|Simbolo";
+            Console.WriteLine(cabecera);
+            Console.WriteLine("+---------------------------------------------+");
+             
+            foreach (var filas in moneda)
+            {
+                valorMoneda = filas.Value;
+                foreach (string filaArray in filas.Value)
+                {
+                    Console.Write(" | " + filaArray.PadRight(10));
+                }
+                Console.WriteLine("");
+            }
+            Console.WriteLine("+---------------------------------------------+");
+            Console.WriteLine("\n");
+            Console.WriteLine("Presione enter para retornar a las opciones ...");
+            Console.ReadLine();
+
+        }
+
 
         //------------------------------------------------------------------------------------------
-        public static void currencyConvert()
+        public static void currencyConvert(Dictionary<int, string[]> moneda)
         {
-            var monedas = InicializarMonedas();
+            //var monedas = InicializarMonedas();
             int monedaOrigen, monedaDestino;
             decimal importe, importeCalculado = 0;
             string[] valorMoneda = new string[2];
@@ -124,7 +156,7 @@ namespace MODULE1_CHALLENGE_JONATAN_ARCE
 
             Console.WriteLine("\nOpciones Moneda:");
 
-            foreach (var filas in monedas)
+            foreach (var filas in moneda)
             {
 
                 Console.Write($"   {filas.Key}");
@@ -147,7 +179,7 @@ namespace MODULE1_CHALLENGE_JONATAN_ARCE
             }
             else
             {
-                if ((monedas.ContainsKey(monedaOrigen)) == false)
+                if ((moneda.ContainsKey(monedaOrigen)) == false)
                 {
                     Console.WriteLine($"la Opcion de la moneda no es valida");
                     return;
@@ -162,7 +194,7 @@ namespace MODULE1_CHALLENGE_JONATAN_ARCE
             }
             else
             {
-                if ((monedas.ContainsKey(monedaDestino)) == false)
+                if ((moneda.ContainsKey(monedaDestino)) == false)
                 {
                     Console.WriteLine($"la Opcion de la moneda no es valida");
                     return;
@@ -206,23 +238,25 @@ namespace MODULE1_CHALLENGE_JONATAN_ARCE
         }
 
         //------------------------------------------------------------------------------------------
-        static bool opcionSeguir()
+        static bool opcionSeguir(int opcion)
         {
-            bool opContinue=false;
-            string seguir="S";
+            bool opContinue = false;
+            string seguir = "S";
 
-            //while (seguir == "S" || seguir == "s")
-
-            Console.Write("Desea ingresar otro? S/N : ");
-            seguir = Console.ReadLine();
-            if (seguir == "S" || seguir == "s")
-            {
-                opContinue = true;
+            if (opcion !=2)
+            { 
+                Console.Write("Desea ingresar otro? S/N : ");
+                seguir = Console.ReadLine();
+                if (seguir.ToUpper() == "S")
+                {
+                    opContinue = true;
+                }
+                else 
+                {
+                    opContinue = false;
+                }
             }
-            else 
-            {
-                opContinue = false;
-            }              
+
             return opContinue;
         }
 
