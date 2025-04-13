@@ -455,23 +455,34 @@ namespace MODULE1_CHALLENGE_JONATAN_ARCE
         //------------------------------------------------------------------------------------------
         static bool OptionContinue(int opcion)
         {
-            bool opContinue = false;
+            bool opContinue = false, validaLetra = false;
             string seguir;
 
             if (opcion != 2)
             {
-                seguir = "S";
-                Console.Write("Desea ingresar otro? S/N : ");
-                seguir = Console.ReadLine();
-                if (seguir.ToUpper() == "S")
+                while (!validaLetra)
                 {
-                    opContinue = true;
-                }
-                else
-                {
-                    opContinue = false;
+
+                    seguir = "S";
+                    Console.Write("¿Desea ingresar otro? S/N : ");
+                    seguir = Console.ReadLine();
+                    if (seguir.ToUpper() == "S")
+                    {
+                        opContinue = true;
+                        validaLetra = true;
+                    }
+                    else if (seguir.ToUpper() == "N")
+                    {
+                        opContinue = false;
+                        validaLetra = true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("¡Valor digitado es incorrecto!");
+                    }
                 }
             }
+
 
             return opContinue;
         }
