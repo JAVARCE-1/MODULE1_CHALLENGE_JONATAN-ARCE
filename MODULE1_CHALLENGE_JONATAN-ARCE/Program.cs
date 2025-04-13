@@ -168,32 +168,26 @@ namespace MODULE1_CHALLENGE_JONATAN_ARCE
             {
                 case 1 when monedaDestino == 2:
                     //PEN_USD
-                    //Console.WriteLine("PEN_USD");
                     importeCalculado = importe / Convert.ToDecimal(moneda[monedaOrigen][4]); ;
                     break;
                 case 1 when monedaDestino == 3:
                     //PEN_EUR
-                    //Console.WriteLine("PEN_EUR");
                     importeCalculado = importe / (Convert.ToDecimal(moneda[monedaOrigen][4]) * Convert.ToDecimal(moneda[2][6]));
                     break;
                 case 2 when monedaDestino == 1:
                     //USD_PEN
-                    //Console.WriteLine("USD_PEN");
                     importeCalculado = importe * Convert.ToDecimal(moneda[monedaOrigen][4]); ;
                     break;
                 case 2 when monedaDestino == 3:
                     //USD_EUR
-                    //Console.WriteLine("USD_EUR");
                     importeCalculado = importe / Convert.ToDecimal(moneda[monedaOrigen][6]);
                     break;
                 case 3 when monedaDestino == 1:
                     //EUR_PEN
-                    //Console.WriteLine("EUR_PEN");
                     importeCalculado = importe * Convert.ToDecimal(moneda[1][4]) * Convert.ToDecimal(moneda[2][6]); ;
                     break;
                 case 3 when monedaDestino == 2:
                     //EUR_USD
-                    //Console.WriteLine("EUR_USD");
                     importeCalculado = importe * (Convert.ToDecimal(moneda[2][6]));
                     break;
                 default:
@@ -201,7 +195,6 @@ namespace MODULE1_CHALLENGE_JONATAN_ARCE
                     break;
             }
             
-
             Console.Write($"al tipo de cambio es: {moneda[monedaDestino][2]} {importeCalculado.ToString("0.000")}");
             Console.WriteLine("\n");
 
@@ -339,7 +332,7 @@ namespace MODULE1_CHALLENGE_JONATAN_ARCE
         {
             decimal valorDec = 0;
             bool entradaValida = false;
-            //valiacion tipo de cambio es decimal
+            //valiada valor tc
             while (!entradaValida)
             {
                 Console.Write($" - Ingrese el nuevo Tipo de Cambio {moneda[indice][indiceArray]} :");
@@ -360,7 +353,7 @@ namespace MODULE1_CHALLENGE_JONATAN_ARCE
         {
             int valorEntero = 0;
             bool entradaValida = false;
-            //validacion numerica de las opciones para las monedas
+            //valida llave moneda
 
             while (!entradaValida)
             {
@@ -482,9 +475,8 @@ namespace MODULE1_CHALLENGE_JONATAN_ARCE
                     }
                 }
             }
-
-
             return opContinue;
         }
+
     }
 }
