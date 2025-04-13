@@ -20,8 +20,6 @@ namespace MODULE1_CHALLENGE_JONATAN_ARCE
 
         //metodos
         //------------------------------------------------------------------------------------------
-
-
         public static void ViewMenu()
         {
             //Console.BackgroundColor = ConsoleColor.DarkBlue;
@@ -41,17 +39,13 @@ namespace MODULE1_CHALLENGE_JONATAN_ARCE
             //Console.ResetColor();
         }
 
-
-
         //------------------------------------------------------------------------------------------
         public static void Principal()
         {
             int opcion = 0;
             bool salir = false;
-            bool opContinue = false, opSeguir = false;
 
             var monedas = InicializarMonedas();
-            //ViewMenu();
 
             while (!salir)
             {
@@ -68,24 +62,7 @@ namespace MODULE1_CHALLENGE_JONATAN_ARCE
 
                     if (opcion != 5)
                     {
-                        //while (opSeguir)
-                        //{
-                        OptionSelection(opcion, monedas);  //Evaluar opciones
-                                                           //opContinue = OptionContinue(opcion);
-                                                           //if (opContinue == false)
-                                                           //{
-                                                           //    Console.WriteLine("false N");
-                                                           //    //ViewMenu();
-                                                           //}
-                                                           //else
-                                                           //{
-                                                           //    //probando nuevo reingreso
-                                                           //    opSeguir = true;
-                                                           //    Console.WriteLine("true");
-                                                           //}
-
-
-                        //}
+                        OptionSelection(opcion, monedas);  
                     }
                     else
                     {
@@ -156,7 +133,7 @@ namespace MODULE1_CHALLENGE_JONATAN_ARCE
         public static void CurrencyConvert(Dictionary<int, string[]> moneda)
         {
             int monedaOrigen, monedaDestino;
-            decimal importe = 0, importeCalculado = 0;
+            decimal importe = 0m, importeCalculado = 0m;
             string[] valorMoneda = new string[6];
             bool entradaValida = false;
 
@@ -184,8 +161,8 @@ namespace MODULE1_CHALLENGE_JONATAN_ARCE
                 }
             }
 
-            Console.WriteLine("");
-            Console.WriteLine($"la Conversión de {moneda[monedaOrigen][0]} a {moneda[monedaDestino][0]} del importe {importe} ");
+            Console.WriteLine("\n");
+            Console.Write($"La Conversión de {moneda[monedaOrigen][0]} a {moneda[monedaDestino][0]} del importe {importe} ");
 
             switch (monedaOrigen)
             {
@@ -223,8 +200,9 @@ namespace MODULE1_CHALLENGE_JONATAN_ARCE
                     // Código por defecto
                     break;
             }
+            
 
-            Console.Write($"El tipo de cambio es {importeCalculado.ToString()}");
+            Console.Write($"al tipo de cambio es: {moneda[monedaDestino][2]} {importeCalculado.ToString("0.000")}");
             Console.WriteLine("\n");
 
             continuarOpcion = false;
@@ -254,26 +232,26 @@ namespace MODULE1_CHALLENGE_JONATAN_ARCE
 
             foreach (var pos in moneda)
             {
-                //buscar palabra (por la moneda)
-                if (pos.Value.Any(s => s.IndexOf(valorBuscar, StringComparison.OrdinalIgnoreCase) >= 0))
+                //buscar palabra
+                if (pos.Value[0].Contains(valorBuscar, StringComparison.OrdinalIgnoreCase) ||
+                   pos.Value[1].Contains(valorBuscar, StringComparison.OrdinalIgnoreCase) ||
+                   pos.Value[2].Contains(valorBuscar, StringComparison.OrdinalIgnoreCase))
                 {
                     indice = pos.Key;
                     break;
                 }
             }
+
             if (indice != -1)
             {
                 Console.WriteLine($"Se encontró '{valorBuscar}' en el elemento con clave {indice}");
+                PrintCurrency(moneda, indice); //imprimir valor buscado
             }
             else
             {
                 Console.WriteLine($"No se encontró '{valorBuscar}' en el diccionario");
-                return;
             }
-            PrintCurrency(moneda, indice); //imprimir valor buscado
 
-            //Console.WriteLine("Presione enter para retornar a las opciones ...");
-            //Console.ReadLine();
             continuarOpcion = false;
 
             continuarOpcion = OptionContinue(BUSCAR);
@@ -281,14 +259,12 @@ namespace MODULE1_CHALLENGE_JONATAN_ARCE
             {
                 OptionSelection(BUSCAR, moneda);
             }
-
         }
 
         //------------------------------------------------------------------------------------------
         public static void UpdateCurrency(Dictionary<int, string[]> moneda)
         {
             int opMoneda = -1;
-            string newtcp;
             decimal primerTcNuevo = 0, segundoTcNuevo = 0;
             decimal primerTcAnterior, segundoTcAnterior;
 
@@ -319,7 +295,6 @@ namespace MODULE1_CHALLENGE_JONATAN_ARCE
                     }
                 }
             }
-            //
             Console.WriteLine("");
 
             primerTcAnterior = Convert.ToDecimal(moneda[opMoneda][4]);
@@ -359,6 +334,7 @@ namespace MODULE1_CHALLENGE_JONATAN_ARCE
 
         }
 
+        //------------------------------------------------------------------------------------------
         public static decimal ValidateExchangeRate(Dictionary<int, string[]> moneda, int indice, int indiceArray)
         {
             decimal valorDec = 0;
@@ -378,6 +354,7 @@ namespace MODULE1_CHALLENGE_JONATAN_ARCE
             }
             return valorDec;
         }
+        //------------------------------------------------------------------------------------------
 
         public static int NumericalValidationCurrency(Dictionary<int, string[]> moneda, string texto, int opcionOrigen)
         {
@@ -411,8 +388,6 @@ namespace MODULE1_CHALLENGE_JONATAN_ARCE
             return valorEntero;
         }
 
-
-
         //------------------------------------------------------------------------------------------
         public static void ListCurrencyOptions(Dictionary<int, string[]> moneda)
         {
@@ -433,7 +408,6 @@ namespace MODULE1_CHALLENGE_JONATAN_ARCE
         public static Dictionary<int, string[]> InicializarMonedas()
         {
             Dictionary<int, string[]> monedas = new Dictionary<int, string[]>();
-            //tcc -tcv
             monedas.Add(1, new string[] { "Soles", "PEN", "S/.", "PEN_USD", "3.75", "PEN_EUR", "3.45" });
             monedas.Add(2, new string[] { "Dolar", "USD", "$", "USD_PEN", "3.74", "USD_EUR", "0.92" });
             monedas.Add(3, new string[] { "Euro", "EUR", "E", "EUR_PEN", "3.44", "EUR_USD", "1.09" });
@@ -441,6 +415,7 @@ namespace MODULE1_CHALLENGE_JONATAN_ARCE
             return monedas;
         }
 
+        //------------------------------------------------------------------------------------------
         public static void PrintCurrency(Dictionary<int, string[]> moneda, int indice)
         {
             string cabecera;
