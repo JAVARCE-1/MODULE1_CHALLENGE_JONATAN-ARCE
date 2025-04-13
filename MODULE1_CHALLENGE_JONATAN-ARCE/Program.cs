@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.Design;
-
+ 
 namespace MODULE1_CHALLENGE_JONATAN_ARCE
 {
     internal class Program
@@ -16,18 +16,19 @@ namespace MODULE1_CHALLENGE_JONATAN_ARCE
         public static void menu()
         {
             Console.WriteLine("\n");
-            Console.WriteLine("======================================");
-            Console.WriteLine("   Aplicación convertidor de moneda   ");
-            Console.WriteLine("======================================");
+            Console.WriteLine("============================================");
+            Console.WriteLine("|     Aplicación Convertidor de Moneda     |");
+            Console.WriteLine("|                                          |");
+            Console.WriteLine("============================================");
             Console.WriteLine("");
-            Console.WriteLine("==== Menú de Opciones ====");
-            Console.WriteLine("     1. Convertir moneda");
-            Console.WriteLine("     2. Listar");
-            Console.WriteLine("     3. Editar");
-            Console.WriteLine("     4. Buscar");
-            Console.WriteLine("     5. Salir");
-            Console.WriteLine("--------------------------");
-            Console.WriteLine("\n");
+            Console.WriteLine("============= Menú de Opciones =============");
+            Console.WriteLine("      1. Convertir moneda");
+            Console.WriteLine("      2. Listar");
+            Console.WriteLine("      3. Editar");
+            Console.WriteLine("      4. Buscar");
+            Console.WriteLine("      5. Salir");
+            Console.WriteLine("---------------------------------------------");
+            Console.WriteLine("");
         }
 
         //------------------------------------------------------------------------------------------
@@ -40,11 +41,12 @@ namespace MODULE1_CHALLENGE_JONATAN_ARCE
 
             while (!salir)
             {
-                Console.Write("Ingrese su opción: ");
+                Console.Write("* Ingrese su opción (1-5): ");
                 if (int.TryParse(Console.ReadLine(), out opcion) == false)
                 {
-                    Console.WriteLine("Opciones - Debe ingresar solo valores númericos");
-                    return;
+                    Console.WriteLine("¡Aviso! - Debe ingresar solo valores númericos ...");
+                    salir = false;
+                    Console.WriteLine("");
                 }
                 else
                 {   if (opcion != 5)
@@ -78,10 +80,11 @@ namespace MODULE1_CHALLENGE_JONATAN_ARCE
 
             var monedas = InicializarMonedas();
 
+            Console.WriteLine($"Has seleccionado la Opción {opcion}" );
             switch (opcion)
             {
                 case CONVERTIR:
-                    {                 
+                    {
                         currencyConvert(monedas);
                         break;
                     }
@@ -97,19 +100,21 @@ namespace MODULE1_CHALLENGE_JONATAN_ARCE
                     }
                 case BUSCAR:
                     {
-                        Console.WriteLine("BUSCAR");
+                        //Console.WriteLine("BUSCAR");
+                        searchCurrency(monedas);
                         break;
                     }
                 default:
                     {
-                        Console.WriteLine("Ingrese correctamente la Opcion");
+                        Console.WriteLine("Ingrese correctamente su Opción");
                         break;
                     }
             }
 
         }
 
- 
+        //------------------------------------------------------------------------------------------
+
         public static void currencyList(Dictionary<int, string[]> moneda)
         {
             string[] valorMoneda = new string[2];
@@ -158,20 +163,14 @@ namespace MODULE1_CHALLENGE_JONATAN_ARCE
 
             foreach (var filas in moneda)
             {
-
                 Console.Write($"   {filas.Key}");
                 valorMoneda = filas.Value;
                 Console.Write(" - " + valorMoneda[0]);
-
-                //foreach (string filaArray in filas.Value)
-                //{
-                //    Console.Write(" - " + filaArray.);
-                //}
                 Console.WriteLine("");
             }
             Console.WriteLine("--------------------------");
 
-            Console.Write($" Seleccione la moneda origen: ");
+            Console.Write(" Seleccione la moneda origen: ");
             if (int.TryParse(Console.ReadLine(), out monedaOrigen) == false)
             {
                 Console.WriteLine("Debe ingresar solo valores númericos");
@@ -223,6 +222,58 @@ namespace MODULE1_CHALLENGE_JONATAN_ARCE
             Console.WriteLine($"Es {importeCalculado.ToString()}");
             Console.WriteLine("");
 
+        }
+
+        //------------------------------------------------------------------------------------------
+
+        public static void searchCurrency(Dictionary<int, string[]> moneda)
+        {
+            string[] valorMoneda = new string[2];
+            string cabecera, entrada;
+            int indice = -1;
+
+            Console.WriteLine("---------------------------------------------");
+            Console.WriteLine("--              BUSCAR MONEDA              --");
+            Console.WriteLine("---------------------------------------------");
+
+            Console.Write("Digite la moneda para su busqueda: ");
+            entrada = Console.ReadLine();
+
+            foreach (var pos in moneda)
+            {
+                 //buscar palabra (por la moneda)
+                  if  (pos.Value.Any(s => s.IndexOf(entrada, StringComparison.OrdinalIgnoreCase) >= 0))
+                {
+                    indice = pos.Key;
+                    break;
+                }
+            }
+            if (indice != -1)
+            {
+                Console.WriteLine($"Se encontró '{entrada}' en el elemento con clave {indice}");
+            }
+            else
+            {
+                Console.WriteLine($"No se encontró '{entrada}' en el diccionario");
+                return;
+            }
+
+            Console.WriteLine("");
+            Console.WriteLine("+---------------------------------------------+");
+            cabecera = " |Moneda      |Abreviatura|Tipo Cambio|Simbolo";
+            Console.WriteLine(cabecera);
+            Console.WriteLine("+---------------------------------------------+");
+
+            foreach (string filaArray in moneda[indice])
+            {
+                Console.Write(" | " + filaArray.PadRight(10));
+            }
+            Console.WriteLine("");
+
+            Console.WriteLine("+---------------------------------------------+");
+            Console.WriteLine("\n");
+            //Console.WriteLine("Presione enter para retornar a las opciones ...");
+            //Console.ReadLine();
         }
 
         //------------------------------------------------------------------------------------------
